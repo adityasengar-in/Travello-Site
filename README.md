@@ -1,16 +1,34 @@
-# React + Vite
+# 🌍 Travello  
+*A clean and modern web-based travel planner built with HTML, CSS, and JavaScript.*
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Travello helps users plan trips in a simple, intuitive, and visually polished way.  
+Create day-by-day itineraries, organize activities, reorder plans with drag & drop, and save everything locally — all inside a fast, responsive interface.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+### ✅ Core Functionality
+- **Destination selection** (local dataset or user input)
+- **Add days** to a trip effortlessly
+- **Add, edit, and delete activities**
+- **Day-by-day itinerary view** with clean UI cards
+- **Drag & Drop** activity management  
+  - Reorder activities within a day  
+  - Move activities between days  
+- **LocalStorage persistence** — your plans auto-save and reload
+- **Mobile-friendly & responsive layout**
+- **Light + Dark theme support**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🚀 Coming Soon (Roadmap)
+- **AI-powered itinerary generator** (Gemini or Groq, via secure backend)
+- **Printable itinerary view**
+- **Export/import itineraries (JSON)**
+- **Map integration** (Mapbox/Leaflet)
+- **Weather integration** for destinations
+- **Shareable encoded trip links**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+free to use under the MIT License.
