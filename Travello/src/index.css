@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: neu;
+  src: url("/assets/NeueHaasDisplayRoman.ttf");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #071200;
+  font-family: neu, Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav-pill {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(20, 61, 0, 0.28);
+  border-radius: 999px;
+  color: #004702;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-pill::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 0%;
+  background: #001e02;
+  transition: height 0.35s ease;
+  z-index: 0;
+}
+
+.nav-pill:hover {
+  color: #ffffff;
+  border-color: #001e02;
+}
+
+.nav-pill:hover::after {
+  height: 100%;
+}
+
+.nav-pill span {
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-nav summary::-webkit-details-marker {
+  display: none;
+}
+
+.hero-blob-one {
+  animation: blob-one 4s linear infinite alternate;
+}
+
+.hero-blob-two {
+  animation: blob-two 4s linear infinite alternate;
+}
+
+.gooey-blob {
+  animation: gooey 2.5s ease-in-out infinite alternate;
+}
+
+.moving-text {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.moving-text::-webkit-scrollbar {
+  display: none;
+}
+
+.con {
+  white-space: nowrap;
+  display: inline-block;
+  animation-name: move;
+  animation-duration: 15s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.moving-text h1 {
+  font-size: 8vw;
+  display: inline-block;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #071200;
+}
+
+.gola {
+  height: 3vw;
+  width: 3vw;
+  display: inline-block;
+  background-color: greenyellow;
+  border-radius: 30px;
+  margin: 1vw 2vw;
+}
+
+.reviews-track {
+  animation: reviews 24s linear infinite;
+}
+
+.reviews-track:hover {
+  animation-play-state: paused;
+}
+
+.footer-shape-one {
+  animation: footer-one 3s linear infinite alternate;
+}
+
+.footer-shape-two {
+  animation: footer-two 4s linear infinite alternate;
+}
+
+@keyframes blob-one {
+  from {
+    transform: translate(0, 0) skew(-12deg);
+  }
+  to {
+    transform: translate(-11%, 11%) skew(14deg);
+  }
+}
+
+@keyframes blob-two {
+  from {
+    transform: translate(0, 0) skew(10deg);
+  }
+  to {
+    transform: translate(-3%, -6%) skew(-12deg);
+  }
+}
+
+@keyframes gooey {
+  from {
+    transform: translate(7%, -5%) skew(-6deg);
+  }
+  to {
+    transform: translate(-7%, 5%) skew(6deg);
+  }
+}
+
+@keyframes move {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes reviews {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes footer-one {
+  from {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(-20deg);
+  }
+}
+
+@keyframes footer-two {
+  from {
+    transform: rotate(30deg);
+  }
+  to {
+    transform: rotate(45deg);
+  }
+}
+
+@media (max-width: 639px) {
+  .moving-text h1 {
+    font-size: 15vw;
+  }
+
+  .gola {
+    height: 6vw;
+    width: 6vw;
+    margin: 1.8vw 3vw;
+  }
+}
