@@ -1,74 +1,88 @@
 const PopWindow = () => {
-  const places = [
+  const itinerary = [
     {
-      name: 'Explore India',
-      image:
-        'https://plus.unsplash.com/premium_photo-1712328581716-49b75fdc1faf?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5kaWElMjBtYXAlMjBhbmQlMjBpdHMlMjBhdHRyYWN0aW5zfGVufDB8fDB8fHww',
+      day: 'Day 1',
+      title: 'Arrive and settle in',
+      detail: 'Airport pickup, neighborhood food map, sunset viewpoint, and one flexible dinner hold.',
+      budget: '$110',
     },
     {
-      name: 'Heritage Delhi',
-      image:
-        'https://images.unsplash.com/photo-1598977054780-2dc700fdc9d3?w=1600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGVsaGl8ZW58MHwxfDB8fHww',
+      day: 'Day 2',
+      title: 'Guided local immersion',
+      detail: 'Morning heritage walk, cafe break, artisan studio visit, and an evening market loop.',
+      budget: '$86',
     },
     {
-      name: 'Royal Jaipur',
-      image:
-        'https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?w=1600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8amFpcHVyfGVufDB8MXwwfHx8MA%3D%3D',
-    },
-    {
-      name: 'Eternal Agra',
-      image:
-        'https://images.unsplash.com/photo-1555099101-3766220a07ae?w=1600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YWdyYXxlbnwwfDF8MHx8fDA%3D',
-    },
-    {
-      name: 'Sacred Varanasi',
-      image:
-        'https://images.unsplash.com/photo-1705952484283-19c31e37e0e4?w=1600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dmFyYW5hc2l8ZW58MHwxfDB8fHww',
-    },
-    {
-      name: 'Coastal Goa',
-      image:
-        'https://images.unsplash.com/photo-1558960214-f4283a743867?w=1600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z29hfGVufDB8MXwwfHx8MA%3D%3D',
-    },
-    {
-      name: 'Serene Kochi',
-      image:
-        'https://images.unsplash.com/photo-1645680149311-5a00ae5a2b2a?w=1600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a29jaGl8ZW58MHwxfDB8fHww',
+      day: 'Day 3',
+      title: 'Slow nature escape',
+      detail: 'Private transfer, scenic stopovers, short hike, picnic lunch, and back by golden hour.',
+      budget: '$128',
     },
   ]
 
+  const plannerTools = ['Compare neighborhoods', 'Track saved places', 'Split trip costs', 'Export a day plan']
+
   return (
-    <section id="plan" className="min-h-screen bg-white py-[12vw] sm:py-[4vw]">
-      <div className="flex items-center gap-2 px-[4vw] py-[5vw] sm:gap-[0.5vw] sm:px-[2vw] sm:py-[3vw]">
-        <span className="h-[15px] w-[15px] rounded-full bg-[#adff2f]" />
-        <h5 className="text-sm font-semibold uppercase tracking-normal text-[#071200] sm:text-[1.2vw]">
-          Featured Places
-        </h5>
-      </div>
+    <section id="plan" className="bg-[#f4f8ef] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
+        <div className="lg:sticky lg:top-28">
+          <p className="text-sm font-black uppercase tracking-[0.2em] text-[#00aa6c]">Trip board</p>
+          <h2 className="mt-3 text-4xl font-black leading-tight text-[#101913] sm:text-5xl">
+            Plan the whole trip without losing the good ideas.
+          </h2>
+          <p className="mt-4 text-lg leading-8 text-[#526057]">
+            Keep saved places, route timing, budgets, and booking notes in one calm workspace. It feels inspired by traveler reviews, but structured for action.
+          </p>
 
-      <div>
-        {places.map((place) => (
-          <div
-            key={place.name}
-            className="group/place relative flex h-[86px] w-full items-center overflow-hidden border-b border-black/35 px-[4vw] sm:h-[110px] sm:px-[2vw]"
-          >
-            <div className="absolute inset-x-0 top-[-100%] h-full bg-[#adff2f] transition-all duration-300 group-hover/place:top-0" />
-            <h2 className="relative z-10 text-[9vw] font-semibold leading-none tracking-normal text-[#071200] sm:text-[3vw]">
-              {place.name}
-            </h2>
-            <img
-              className="pointer-events-none fixed left-1/2 top-[18%] z-50 hidden h-[30vw] w-[25vw] rounded-[20px] object-cover opacity-0 transition-opacity duration-200 group-hover/place:opacity-100 sm:group-hover/place:block"
-              src={place.image}
-              alt=""
-            />
+          <div className="mt-7 grid gap-3 sm:grid-cols-2">
+            {plannerTools.map((tool) => (
+              <div key={tool} className="rounded-lg border border-black/10 bg-white p-4">
+                <span className="mb-4 block h-2 w-10 rounded-full bg-[#00aa6c]" />
+                <p className="font-black text-[#101913]">{tool}</p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
 
-      <div className="px-[4vw] py-[6vw] sm:px-[2vw] sm:py-[2vw]">
-        <a className="nav-pill inline-block px-[15px] py-[15px]" href="#discover">
-          <span>All Places -&gt;</span>
-        </a>
+        <div className="rounded-lg border border-black/10 bg-white p-4 shadow-sm sm:p-5">
+          <div className="flex flex-col justify-between gap-3 border-b border-black/10 pb-5 sm:flex-row sm:items-center">
+            <div>
+              <p className="text-sm font-bold text-[#69756d]">Sample itinerary</p>
+              <h3 className="text-2xl font-black text-[#101913]">Three days in Goa</h3>
+            </div>
+            <button className="w-full rounded-full bg-[#101913] px-5 py-3 text-sm font-black text-white transition hover:bg-[#00aa6c] sm:w-auto" type="button">
+              Start with this
+            </button>
+          </div>
+
+          <div className="mt-4 space-y-3">
+            {itinerary.map((item) => (
+              <article key={item.day} className="grid gap-4 rounded-lg border border-black/10 bg-[#fbfaf4] p-4 sm:grid-cols-[92px_1fr_auto] sm:items-start">
+                <p className="rounded-full bg-[#e5f6ed] px-3 py-2 text-center text-sm font-black text-[#007a53]">{item.day}</p>
+                <div>
+                  <h4 className="text-xl font-black text-[#101913]">{item.title}</h4>
+                  <p className="mt-2 text-sm leading-6 text-[#526057]">{item.detail}</p>
+                </div>
+                <p className="text-lg font-black text-[#101913]">{item.budget}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-5 grid gap-3 border-t border-black/10 pt-5 sm:grid-cols-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#69756d]">Total</p>
+              <p className="mt-1 text-2xl font-black text-[#101913]">$324</p>
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#69756d]">Saved</p>
+              <p className="mt-1 text-2xl font-black text-[#101913]">14 places</p>
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#69756d]">Pace</p>
+              <p className="mt-1 text-2xl font-black text-[#101913]">Relaxed</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )
