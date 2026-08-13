@@ -20,7 +20,7 @@ const Footer = () => {
             <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/55">Company</h3>
             <div className="mt-4 grid gap-3">
               {links.map((link) => (
-                <a key={link} className="text-white/80 transition hover:text-white" href="#discover">
+                <a key={link} className="text-white/80 transition hover:text-white" >
                   {link}
                 </a>
               ))}
@@ -31,7 +31,7 @@ const Footer = () => {
             <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/55">Top destinations</h3>
             <div className="mt-4 grid gap-3">
               {destinations.map((destination) => (
-                <a key={destination} className="text-white/80 transition hover:text-white" href="#plan">
+                <a key={destination} className="text-white/80 transition hover:text-white" href="/discover">
                   {destination}
                 </a>
               ))}

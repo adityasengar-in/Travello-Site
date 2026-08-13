@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 const starterPrompts = [
   'Plan 5 days in Kerala for nature, food, and a medium budget.',
@@ -20,33 +21,72 @@ const createDemoPlan = (prompt) =>
   ].join('\n')
 
 const requestTripPlan = async ({ messages }) => {
-  const endpoint = import.meta.env.VITE_TRAVELLO_AI_ENDPOINT
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY
 
-  if (!endpoint) {
-    await new Promise((resolve) => {
-      window.setTimeout(resolve, 700)
-    })
-
-    return createDemoPlan(messages[messages.length - 1].content)
+  if (!apiKey) {
+    throw new Error('Gemini API key is missing. Check your .env file.')
   }
 
-  const response = await fetch(endpoint, {
-    body: JSON.stringify({
-      messages,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-  })
+  const contents = messages
+    .filter((message) => message.role !== 'system')
+    .map((message) => ({
+      role: message.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: message.content }],
+    }))
+
+  const response = await fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey,
+      },
+      body: JSON.stringify({
+        systemInstruction: {
+          parts: [
+            {
+              text: `You are Travello's AI travel planner.
+
+Create useful, realistic travel itineraries based on the user's destination, mood, budget, number of days, and places they want to visit.
+
+Be practical and concise.
+Include:
+- Day-by-day itinerary
+- Places to visit
+- Food/local experiences
+- Approximate budget guidance
+- Transportation suggestions
+- Useful travel tips
+
+If the user hasn't provided enough information, ask them for the missing details instead of making unreasonable assumptions.`,
+            },
+          ],
+        },
+        contents,
+        generationConfig: {
+          temperature: 0.7,
+        },
+      }),
+    }
+  )
 
   if (!response.ok) {
-    throw new Error('The trip planning API did not respond successfully.')
+    const errorData = await response.json().catch(() => null)
+    throw new Error(
+      errorData?.error?.message || 'Gemini API request failed.'
+    )
   }
 
   const data = await response.json()
-  return data.reply ?? data.text ?? data.message ?? 'No response text was returned by the trip planning API.'
+
+  return (
+    data.candidates?.[0]?.content?.parts
+      ?.map((part) => part.text)
+      .join('') || 'Gemini returned an empty response.'
+  )
 }
+
 
 const Plan = () => {
   const [input, setInput] = useState('')
@@ -116,7 +156,9 @@ const Plan = () => {
                       isUser ? 'bg-[#101913] text-white' : 'border border-black/10 bg-white text-[#101913]'
                     }`}
                   >
-                    {message.content}
+                    <div className="prose prose-sm max-w-none">
+                      <ReactMarkdown>{message.content}</ReactMarkdown>
+                    </div>
                   </div>
                 </div>
               )

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const PopWindow = () => {
   const itinerary = [
     {
@@ -50,10 +51,12 @@ const PopWindow = () => {
               <p className="text-sm font-bold text-[#69756d]">Sample itinerary</p>
               <h3 className="text-2xl font-black text-[#101913]">Three days in Goa</h3>
             </div>
-            <button
-            onClick={() => (document.location = "/plan")} className="w-full rounded-full bg-[#101913] px-5 py-3 text-sm font-black text-white transition hover:bg-[#00aa6c] sm:w-auto" type="button">
+            <Link
+              to="/plan"
+              className="w-full rounded-full bg-[#101913] px-5 py-3 text-sm font-black text-white transition hover:bg-[#00aa6c] sm:w-auto"
+            >
               Start with this
-            </button>
+            </Link>
           </div>
 
           <div className="mt-4 space-y-3">
