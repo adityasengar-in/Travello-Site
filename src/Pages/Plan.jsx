@@ -156,9 +156,7 @@ const Plan = () => {
                       isUser ? 'bg-[#101913] text-white' : 'border border-black/10 bg-white text-[#101913]'
                     }`}
                   >
-                    <div className="prose prose-sm max-w-none">
-                      <ReactMarkdown>{message.content}</ReactMarkdown>
-                    </div>
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
                   </div>
                 </div>
               )
