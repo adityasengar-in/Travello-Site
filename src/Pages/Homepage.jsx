@@ -7,13 +7,12 @@ import Footer from '../components/Footer'
 const Homepage = () => {
   return (
     <>
-      <main className="relative z-10">
+      <main>
         <Landing />
         <Hero />
         <PopWindow />
         <Slider />
       </main>
-      <div className="pointer-events-none relative z-10 h-screen" />
       <Footer />
     </>
   )
