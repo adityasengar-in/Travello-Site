@@ -1,48 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useCitySearch } from '../context/useCitySearch'
 import Landscape from './Landscape'
-
-let citySearchIndexPromise
-
-const createCitySearchIndex = (cities) =>
-  cities.reduce((cityList, city) => {
-    if (!city.name || !city.country) {
-      return cityList
-    }
-
-    const cityName = city.name.trim()
-    const countryCode = city.country.trim().toUpperCase()
-    const key = `${cityName}-${countryCode}`.toLowerCase()
-
-    if (cityList.seen.has(key)) {
-      return cityList
-    }
-
-    cityList.seen.add(key)
-    cityList.items.push({
-      city: cityName,
-      countryCode,
-      searchValue: `${cityName} ${countryCode}`.toLowerCase(),
-    })
-
-    return cityList
-  }, { items: [], seen: new Set() }).items
-
-const loadCitySearchIndex = () => {
-  if (!citySearchIndexPromise) {
-    citySearchIndexPromise = import('cities.json').then((module) => createCitySearchIndex(module.default ?? module))
-  }
-
-  return citySearchIndexPromise
-}
 
 const Landing = () => {
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
-  const [citySearchIndex, setCitySearchIndex] = useState([])
+  const { citySearchError, citySearchIndex, isCitySearchLoading } = useCitySearch()
+  const navigate = useNavigate()
   const searchInputRef = useRef(null)
 
   const quickStats = [
-    { label: 'Reviewed stays', value: '420+' },
+    { label: 'Reviewed places', value: '420+' },
     { label: 'Local guides', value: '68' },
     { label: 'Avg. rating', value: '4.8' },
   ]
@@ -83,24 +52,18 @@ const Landing = () => {
     }
   }, [searchOpen])
 
-  useEffect(() => {
-    if (!searchOpen || citySearchIndex.length > 0) {
-      return undefined
+  const submitSearch = () => {
+    const trimmedQuery = query.trim()
+
+    setSearchOpen(false)
+
+    if (!trimmedQuery) {
+      navigate('/discover')
+      return
     }
 
-    let active = true
-
-    loadCitySearchIndex()
-      .then((cities) => {
-        if (active) {
-          setCitySearchIndex(cities)
-        }
-      })
-
-    return () => {
-      active = false
-    }
-  }, [citySearchIndex.length, searchOpen])
+    navigate(`/discover?city=${encodeURIComponent(trimmedQuery)}`)
+  }
 
   return (
     <section className="relative overflow-hidden bg-[#fbfaf4] px-4 pb-12 pt-28 sm:px-6 lg:px-8 lg:pb-16 lg:pt-32">
@@ -113,7 +76,7 @@ const Landing = () => {
             Find places worth your time.
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-[#526057] sm:text-xl">
-            Compare trusted stays, local experiences, food stops, and practical routes before you book. Travello turns inspiration into a trip you can actually use.
+            Explore trusted places, local experiences, food stops, and practical routes before you plan. Travello turns inspiration into a trip you can actually use.
           </p>
 
           <button
@@ -154,6 +117,11 @@ const Landing = () => {
                       className="mt-1 w-full bg-transparent text-2xl font-black text-[#101913] outline-none placeholder:text-[#8b968e] sm:text-4xl"
                       id="landing-search"
                       onChange={(event) => setQuery(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          submitSearch()
+                        }
+                      }}
                       placeholder="Search city or country code..."
                       type="text"
                       value={query}
@@ -169,7 +137,9 @@ const Landing = () => {
                 </div>
 
                 <div className="mt-3 overflow-hidden rounded-[22px] border border-black/10 bg-white">
-                  {searchOpen && citySearchIndex.length === 0 ? (
+                  {citySearchError ? (
+                    <div className="px-5 py-6 text-sm font-bold text-[#a3422f]">{citySearchError}</div>
+                  ) : isCitySearchLoading ? (
                     <div className="px-5 py-6 text-sm font-bold text-[#69756d]">Loading city suggestions...</div>
                   ) : suggestions.length > 0 ? (
                     suggestions.map((place) => (
@@ -178,7 +148,7 @@ const Landing = () => {
                         className="flex w-full items-center justify-between gap-4 border-b border-black/10 px-5 py-4 text-left transition last:border-b-0 hover:bg-[#f4f8ef] sm:px-6"
                         onClick={() => {
                           setQuery(`${place.city}, ${place.countryCode}`)
-                          setSearchOpen(false)
+                          searchInputRef.current?.focus()
                         }}
                         type="button"
                       >
@@ -194,7 +164,11 @@ const Landing = () => {
                 </div>
 
                 <div className="mt-3 flex justify-end">
-                  <button className="rounded-full bg-[#00aa6c] px-7 py-4 text-base font-black text-white transition hover:bg-[#008f5a]" type="button">
+                  <button
+                    className="rounded-full bg-[#00aa6c] px-7 py-4 text-base font-black text-white transition hover:bg-[#008f5a]"
+                    onClick={submitSearch}
+                    type="button"
+                  >
                     Search
                   </button>
                 </div>

@@ -4,23 +4,23 @@ const PopWindow = () => {
       day: 'Day 1',
       title: 'Arrive and settle in',
       detail: 'Airport pickup, neighborhood food map, sunset viewpoint, and one flexible dinner hold.',
-      budget: '$110',
+      focus: 'Arrival',
     },
     {
       day: 'Day 2',
       title: 'Guided local immersion',
       detail: 'Morning heritage walk, cafe break, artisan studio visit, and an evening market loop.',
-      budget: '$86',
+      focus: 'Culture',
     },
     {
       day: 'Day 3',
       title: 'Slow nature escape',
       detail: 'Private transfer, scenic stopovers, short hike, picnic lunch, and back by golden hour.',
-      budget: '$128',
+      focus: 'Nature',
     },
   ]
 
-  const plannerTools = ['Compare neighborhoods', 'Track saved places', 'Split trip costs', 'Export a day plan']
+  const plannerTools = ['Compare neighborhoods', 'Track saved places', 'Balance trip pace', 'Export a day plan']
 
   return (
     <section id="plan" className="bg-[#f4f8ef] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
@@ -31,7 +31,7 @@ const PopWindow = () => {
             Plan the whole trip without losing the good ideas.
           </h2>
           <p className="mt-4 text-lg leading-8 text-[#526057]">
-            Keep saved places, route timing, budgets, and booking notes in one calm workspace. It feels inspired by traveler reviews, but structured for action.
+            Keep saved places, route timing, notes, and day-by-day ideas in one calm workspace. It feels inspired by traveler reviews, but structured for action.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -50,7 +50,8 @@ const PopWindow = () => {
               <p className="text-sm font-bold text-[#69756d]">Sample itinerary</p>
               <h3 className="text-2xl font-black text-[#101913]">Three days in Goa</h3>
             </div>
-            <button className="w-full rounded-full bg-[#101913] px-5 py-3 text-sm font-black text-white transition hover:bg-[#00aa6c] sm:w-auto" type="button">
+            <button
+            onClick={() => (document.location = "/plan")} className="w-full rounded-full bg-[#101913] px-5 py-3 text-sm font-black text-white transition hover:bg-[#00aa6c] sm:w-auto" type="button">
               Start with this
             </button>
           </div>
@@ -63,15 +64,15 @@ const PopWindow = () => {
                   <h4 className="text-xl font-black text-[#101913]">{item.title}</h4>
                   <p className="mt-2 text-sm leading-6 text-[#526057]">{item.detail}</p>
                 </div>
-                <p className="text-lg font-black text-[#101913]">{item.budget}</p>
+                <p className="text-lg font-black text-[#101913]">{item.focus}</p>
               </article>
             ))}
           </div>
 
           <div className="mt-5 grid gap-3 border-t border-black/10 pt-5 sm:grid-cols-3">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#69756d]">Total</p>
-              <p className="mt-1 text-2xl font-black text-[#101913]">$324</p>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#69756d]">Ideas</p>
+              <p className="mt-1 text-2xl font-black text-[#101913]">18</p>
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#69756d]">Saved</p>
