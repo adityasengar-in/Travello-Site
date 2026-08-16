@@ -1,6 +1,6 @@
 # 🌍 Travello
 
-**Travello** is a modern, responsive travel discovery and AI itinerary-planning web application built with **React, Vite, Tailwind CSS, and Google Gemini**.
+**Travello** is a modern, responsive travel discovery and AI itinerary-planning web application built with **React, Vite, Tailwind CSS, and Groq**.
 
 It combines destination discovery with an interactive AI travel planner, allowing users to explore destinations by mood and generate personalized trip ideas based on their destination, budget, travel duration, interests, and preferred experiences.
 
@@ -53,7 +53,7 @@ Users can search for destinations and navigate to the Discover experience with t
 
 ### 🤖 AI Travel Planner
 
-The **Plan** page provides an interactive AI travel-planning experience powered by **Google Gemini**.
+The **Plan** page provides an interactive AI travel-planning experience powered by **Groq**.
 
 Users can describe their trip in natural language, including information such as:
 
@@ -103,7 +103,7 @@ The application uses reusable React components for navigation, destination cards
 | **Tailwind CSS 4**    | Styling and responsive UI                       |
 | **React Router 7**    | Client-side routing                             |
 | **React Markdown**    | Rendering AI-generated Markdown responses       |
-| **Google Gemini API** | AI-powered itinerary generation                 |
+| **Groq API**          | AI-powered itinerary generation                 |
 | **cities.json**       | City/destination data                           |
 | **ESLint**            | Code quality and linting                        |
 
@@ -194,23 +194,29 @@ cd Travello-Site
 npm install
 ```
 
-### 3. Configure Gemini
+### 3. Configure Groq
 
-The AI planner uses the Gemini API and expects the following environment variable:
+The AI planner uses the Groq API and expects the following environment variable:
 
 ```env
-VITE_GEMINI_API_KEY=your_gemini_api_key
+VITE_GROQ_API_KEY=your_groq_api_key
 ```
 
 Create a `.env` file in the project root:
 
 ```env
-VITE_GEMINI_API_KEY=your_gemini_api_key
+VITE_GROQ_API_KEY=your_groq_api_key
 ```
 
-> **Security note:** Vite `VITE_*` variables are exposed to the client-side application. For a production deployment, the Gemini request should ideally be moved behind a secure backend/server-side endpoint so the API key is not exposed to users.
+Optionally override the model:
 
-The current implementation reads `VITE_GEMINI_API_KEY` directly from the Vite environment and sends requests to the Gemini API from the Plan page.
+```env
+VITE_GROQ_MODEL=llama-3.3-70b-versatile
+```
+
+> **Security note:** Vite `VITE_*` variables are exposed to the client-side application. For a production deployment, the Groq request should ideally be moved behind a secure backend/server-side endpoint so the API key is not exposed to users.
+
+The current implementation reads `VITE_GROQ_API_KEY` directly from the Vite environment and sends requests to the Groq API from the Plan page.
 
 ### 4. Start the development server
 
@@ -259,9 +265,9 @@ Plan 6 days in Rajasthan for heritage, local food,
 and photography with a moderate budget.
 ```
 
-Travello sends the conversation to Gemini and requests a practical itinerary containing destinations, activities, food experiences, budget guidance, transportation suggestions, and travel tips.
+Travello sends the conversation to Groq and requests a practical itinerary containing destinations, activities, food experiences, budget guidance, transportation suggestions, and travel tips.
 
-If the Gemini API key is not configured, the planner displays an appropriate configuration error.
+If the Groq API key is not configured, the planner displays an appropriate configuration error.
 
 ---
 
@@ -335,7 +341,7 @@ Travello currently provides:
 * ✅ City search flow
 * ✅ Curated destination recommendations
 * ✅ AI itinerary generation
-* ✅ Gemini-powered conversational planning
+* ✅ Groq-powered conversational planning
 * ✅ Markdown-rendered AI responses
 * ✅ React Router navigation
 * ✅ Responsive Tailwind CSS interface
@@ -348,7 +354,7 @@ Travello currently provides:
 
 The project can be extended with features such as:
 
-* Secure server-side Gemini integration
+* Secure server-side Groq integration
 * Saved user itineraries
 * Authentication and user accounts
 * Persistent trip history

@@ -7,46 +7,9 @@ const starterPrompts = [
   'Suggest a family friendly Himachal route under 40000 INR.',
 ]
 
-const createDemoPlan = (prompt) =>
-  [
-    'Here is a draft plan based on your trip notes:',
-    '',
-    `Destination idea: ${prompt}`,
-    '',
-    'Day 1: Arrive, settle near the most walkable area, and keep the evening light with one local food stop.',
-    'Day 2: Visit the main landmarks early, then add a slower cafe or market block after lunch.',
-    'Day 3: Keep this for the mood of the trip: beach time, mountain views, heritage lanes, or city experiences.',
-    '',
-    'Budget tip: Keep transport and stays flexible first, then spend more on one guided local experience.',
-  ].join('\n')
-
-const requestTripPlan = async ({ messages }) => {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY
-
-  if (!apiKey) {
-    throw new Error('Gemini API key is missing. Check your .env file.')
-  }
-
-  const contents = messages
-    .filter((message) => message.role !== 'system')
-    .map((message) => ({
-      role: message.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: message.content }],
-    }))
-
-  const response = await fetch(
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': apiKey,
-      },
-      body: JSON.stringify({
-        systemInstruction: {
-          parts: [
-            {
-              text: `You are Travello's AI travel planner.
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
+const GROQ_MODEL = import.meta.env.VITE_GROQ_MODEL || 'llama-3.3-70b-versatile'
+const SYSTEM_INSTRUCTION = `You are Travello's AI travel planner.
 
 Create useful, realistic travel itineraries based on the user's destination, mood, budget, number of days, and places they want to visit.
 
@@ -59,32 +22,46 @@ Include:
 - Transportation suggestions
 - Useful travel tips
 
-If the user hasn't provided enough information, ask them for the missing details instead of making unreasonable assumptions.`,
-            },
-          ],
-        },
-        contents,
-        generationConfig: {
-          temperature: 0.7,
-        },
-      }),
-    }
-  )
+If the user hasn't provided enough information, ask them for the missing details instead of making unreasonable assumptions.`
+
+const requestTripPlan = async ({ messages }) => {
+  const apiKey = import.meta.env.VITE_GROQ_API_KEY?.trim()
+
+  if (!apiKey) {
+    throw new Error('Groq API key is missing. Add VITE_GROQ_API_KEY to .env, then restart the Vite dev server.')
+  }
+
+  const chatMessages = [
+    { content: SYSTEM_INSTRUCTION, role: 'system' },
+    ...messages
+      .filter((message) => message.role !== 'system')
+      .map((message) => ({
+        content: message.content,
+        role: message.role === 'assistant' ? 'assistant' : 'user',
+      })),
+  ]
+
+  const response = await fetch(GROQ_API_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      messages: chatMessages,
+      model: GROQ_MODEL,
+      temperature: 0.7,
+    }),
+  })
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => null)
-    throw new Error(
-      errorData?.error?.message || 'Gemini API request failed.'
-    )
+    const message = errorData?.error?.message || 'Groq API request failed.'
+    throw new Error(`${message} (${response.status})`)
   }
 
   const data = await response.json()
-
-  return (
-    data.candidates?.[0]?.content?.parts
-      ?.map((part) => part.text)
-      .join('') || 'Gemini returned an empty response.'
-  )
+  return data.choices?.[0]?.message?.content || 'Groq returned an empty response.'
 }
 
 

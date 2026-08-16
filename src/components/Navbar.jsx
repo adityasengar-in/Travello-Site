@@ -30,7 +30,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <a className="text-sm font-semibold text-[#2d3a31]" href="#signin">
+          <a className="text-sm font-semibold text-[#2d3a31]">
             Sign in
           </a>
           <Link className="inline-flex min-w-28 items-center justify-center rounded-full bg-[#132318] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#02ae52]" to="/plan">
