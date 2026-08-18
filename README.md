@@ -211,7 +211,7 @@ VITE_GROQ_API_KEY=your_groq_api_key
 Optionally override the model:
 
 ```env
-VITE_GROQ_MODEL=llama-3.3-70b-versatile
+VITE_GROQ_MODEL=openai/gpt-oss-20b
 ```
 
 > **Security note:** Vite `VITE_*` variables are exposed to the client-side application. For a production deployment, the Groq request should ideally be moved behind a secure backend/server-side endpoint so the API key is not exposed to users.

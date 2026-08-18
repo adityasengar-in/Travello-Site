@@ -8,7 +8,7 @@ const starterPrompts = [
 ]
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
-const GROQ_MODEL = import.meta.env.VITE_GROQ_MODEL || 'llama-3.3-70b-versatile'
+const GROQ_MODEL = import.meta.env.VITE_GROQ_MODEL || 'openai/gpt-oss-20b'
 const SYSTEM_INSTRUCTION = `You are Travello's AI travel planner.
 
 Create useful, realistic travel itineraries based on the user's destination, mood, budget, number of days, and places they want to visit.
